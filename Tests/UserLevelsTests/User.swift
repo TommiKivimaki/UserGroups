@@ -1,8 +1,10 @@
-// Copyright © 17.6.2020 Tommi Kivimäki.
+// Copyright © 9.7.2020 Tommi Kivimäki.
+
+import Foundation
 
 import Foundation
 import Vapor
-import FluentSQLite
+import FluentPostgreSQL
 import Authentication
 import UserLevels
 
@@ -15,7 +17,7 @@ public final class User: Codable, UserLevelable {
   
   public init(username: String,
               password: String,
-              userLevel: UserLevel = .user) {
+              userLevel: UserLevel = UserLevel(role: "admin")) {
     self.username = username
     self.password = password
     self.userLevel = userLevel
@@ -24,9 +26,9 @@ public final class User: Codable, UserLevelable {
 
 extension User: Content {}
 extension User: Migration {
-  public typealias Database = SQLiteDatabase
+  public typealias Database = PostgreSQLDatabase
 }
-extension User: SQLiteUUIDModel {}
+extension User: PostgreSQLUUIDModel {}
 extension User: BasicAuthenticatable {
   public static let usernameKey: UsernameKey = \User.username
   public static let passwordKey: PasswordKey = \User.password

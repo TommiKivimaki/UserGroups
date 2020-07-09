@@ -1,16 +1,12 @@
-// Copyright © 18.6.2020 Tommi Kivimäki.
+// Copyright © 9.7.2020 Tommi Kivimäki.
 
 import Foundation
 import Vapor
-import FluentSQLite
 
-
-public enum UserLevel: String, Content, SQLiteEnumType {
-  case admin = "admin"
-  case user = "user"
+public struct UserLevel: Content {
+  let role: String
   
-  public static func reflectDecoded() throws -> (UserLevel, UserLevel) {
-    return (.admin, .user)
+  public init(role: String) {
+    self.role = role
   }
 }
-
