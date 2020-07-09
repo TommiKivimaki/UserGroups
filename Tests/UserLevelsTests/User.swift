@@ -4,7 +4,7 @@ import Foundation
 import Vapor
 import FluentSQLite
 import Authentication
-import UserManager
+import UserLevels
 
 public final class User: Codable, UserLevelable {
   public var id: UUID?

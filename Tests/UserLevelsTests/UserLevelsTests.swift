@@ -3,9 +3,9 @@ import Vapor
 import FluentSQLite
 import Authentication
 //import Dispatch
-@testable import UserManager
+@testable import UserLevels
 
-final class UserManagerTests: XCTestCase {
+final class UserLevelsTests: XCTestCase {
   
   var app: Application!
   var conn: SQLiteConnection!
