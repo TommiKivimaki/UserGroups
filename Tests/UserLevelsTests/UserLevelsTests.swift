@@ -1,8 +1,7 @@
 import XCTest
 import Vapor
-import FluentSQLite
-import FluentPostgreSQL
-import Authentication
+import FluentSQLiteDriver
+import FluentPostgresDriver
 @testable import UserLevels
 
 final class UserLevelsTests: XCTestCase {

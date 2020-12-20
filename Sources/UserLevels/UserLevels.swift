@@ -1,2 +1,2 @@
-struct UserManager {
-}
+//struct UserManager {
+//}

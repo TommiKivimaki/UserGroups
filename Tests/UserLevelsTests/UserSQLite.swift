@@ -2,8 +2,7 @@
 
 import Foundation
 import Vapor
-import FluentSQLite
-import Authentication
+import FluentSQLiteDriver
 import UserLevels
 
 public final class UserSQLite: Codable, UserLevelableSQLite {

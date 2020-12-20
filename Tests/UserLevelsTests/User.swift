@@ -1,11 +1,8 @@
 // Copyright © 9.7.2020 Tommi Kivimäki.
 
 import Foundation
-
-import Foundation
 import Vapor
-import FluentPostgreSQL
-import Authentication
+import FluentPostgresDriver
 import UserLevels
 
 public final class User: Codable, UserLevelable {
