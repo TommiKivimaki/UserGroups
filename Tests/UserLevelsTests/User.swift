@@ -1,32 +1,57 @@
 // Copyright © 9.7.2020 Tommi Kivimäki.
 
-import Foundation
 import Vapor
-import FluentPostgresDriver
+import Fluent
 import UserLevels
 
-public final class User: Codable, UserLevelable {
-  public var id: UUID?
-  var username: String
-  var password: String
-  public var userLevel: UserLevel
-  
-  
-  public init(username: String,
-              password: String,
-              userLevel: UserLevel = UserLevel(role: "admin")) {
-    self.username = username
-    self.password = password
-    self.userLevel = userLevel
-  }
+struct UserSignup: Content {
+    let username: String
+    let password: String
+}
+
+final class User: Model, UserLevelable {
+    static let schema = "user"
+
+    @ID
+    var id: UUID?
+
+    @Field(key: "username")
+    var username: String
+
+    @Field(key: "passwordHash")
+    var passwordHash: String
+
+    @Field(key: "userLevel")
+    var userLevel: UserLevel
+
+    init() { }
+
+    init(id: UUID? = nil,
+                username: String,
+                password: String,
+                userLevel: UserLevel = UserLevel(role: "admin")) {
+        self.id = id
+        self.username = username
+        self.passwordHash = password
+        self.userLevel = userLevel
+    }
 }
 
 extension User: Content {}
-extension User: Migration {
-  public typealias Database = PostgreSQLDatabase
+
+extension User {
+    func create(from userSignup: UserSignup) throws -> User {
+        User(username: userSignup.username,
+             password: try Bcrypt.hash(userSignup.password) )
+    }
 }
-extension User: PostgreSQLUUIDModel {}
-extension User: BasicAuthenticatable {
-  public static let usernameKey: UsernameKey = \User.username
-  public static let passwordKey: PasswordKey = \User.password
+
+extension User: ModelAuthenticatable {
+    static var usernameKey: KeyPath<User, Field<String>> = \User.$username
+
+    static var passwordHashKey: KeyPath<User, Field<String>> = \User.$passwordHash
+
+    func verify(password: String) throws -> Bool {
+        try Bcrypt.verify(password, created: self.passwordHash)
+    }
 }
