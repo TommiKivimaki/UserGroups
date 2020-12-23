@@ -1,19 +1,21 @@
-// Copyright © 22.12.2020 Tommi Kivimäki.
+// Copyright © 23.12.2020 Tommi Kivimäki.
 
 import Fluent
-import Vapor
+import UserLevels
 
-struct CreateRegularUser: Migration {
+struct CreateUser: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         database.schema(User.schema)
             .id()
-            .field("regular-user", .string, .required)
-            .unique(on: "username")
+            .field("username", .string, .required)
             .field("passwordHash", .string, .required)
+            .field("userLevel", .json, .required)
             .create()
     }
 
     func revert(on database: Database) -> EventLoopFuture<Void> {
         database.schema(User.schema).delete()
     }
+
+
 }

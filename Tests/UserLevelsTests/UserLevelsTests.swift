@@ -100,58 +100,6 @@ final class UserLevelsTests: XCTestCase {
   
   
   func testAdminMiddlewareWithUsers() throws {
-//    // Boot up services
-//    var services = Services.default()
-//    try services.register(FluentProvider())
-//    try services.register(FluentPostgreSQLProvider())
-//    try services.register(AuthenticationProvider())
-//
-//    // Setup DB
-//    let postgreConfig: PostgreSQLDatabaseConfig
-//    let hostname = "localhost"
-//    let username = "vapor"
-//    let password = "password"
-//    let databaseName = "test-db"
-//    let databasePort = 5432
-//    postgreConfig = PostgreSQLDatabaseConfig(
-//      hostname: hostname,
-//      port: databasePort,
-//      username: username,
-//      database: databaseName,
-//      password: password)
-//
-//    let postgre = PostgreSQLDatabase(config: postgreConfig)
-//    var databases = DatabasesConfig()
-//    databases.add(database: postgre, as: .psql)
-//    services.register(databases)
-//
-//    var migrations = MigrationConfig()
-//    migrations.add(model: User.self, database: DatabaseIdentifier<User.Database>.psql)
-//    services.register(migrations)
-//
-//    // Boot up the app and connect to the DB
-//    app = try Application(services: services)
-//    psqlConn = try app.newConnection(to: .psql).wait()
-//    defer { psqlConn.close() }
-//
-//    // Save users for testing
-//    _ = try regularUser.save(on: psqlConn).wait()
-//    _ = try adminUser.save(on: psqlConn).wait()
-
-//
-//    // Router for creating routes and a responder
-//    let router = try app.make(Router.self)
-//    let responder = try app.make(Responder.self)
-
-
-//    // Create basic auth route
-//    let basicAuthMiddleware = User.basicAuthMiddleware(using: PlaintextVerifier())
-//    let basicAuthRoutes = router.grouped(basicAuthMiddleware)
-//    basicAuthRoutes.get("test") { req -> String in
-//      let user = try req.requireAuthenticated(User.self)
-//      return user.username
-//    }
-
     let basicAuthRoutes = app.grouped(User.authenticator())
     basicAuthRoutes.get("test") { req -> String in
         let user = try req.auth.require(User.self)
@@ -167,7 +115,11 @@ final class UserLevelsTests: XCTestCase {
 //    XCTAssertEqual(basicAuthResponse.http.status, .ok)
 //    XCTAssertEqual(basicAuthResponse.http.body.description, "regular")
 
-    try app.test(.GET, "test", headers: HTTPHeaders([("Auhtorization", "figurethisout")]), body: nil, afterResponse: { response in
+    let authString = "admin:password"
+    let authData = Data(authString.utf8)
+    let authEncodedData = authData.base64EncodedString()
+
+    try app.test(.GET, "test", headers: HTTPHeaders([("Authorization", "Basic \(authEncodedData)")]), body: nil, afterResponse: { response in
         XCTAssertEqual(response.status, .ok)
     })
   

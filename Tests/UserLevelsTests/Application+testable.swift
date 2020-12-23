@@ -27,9 +27,10 @@ extension Application {
                           as: .psql)
 
         // MARK: Run migrations
+        app.migrations.add(CreateUser())
         app.migrations.add(CreateAdminUser())
         app.migrations.add(CreateRegularUser())
-        try app.autoRevert().wait()
+//        try app.autoRevert().wait()
         try app.autoMigrate().wait()
 
         return app
