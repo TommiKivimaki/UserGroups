@@ -2,22 +2,22 @@
 
 import Fluent
 import Vapor
-import UserLevels
+import UserGroups
 
-struct CreateRegularUser: Migration {
+struct CreateUserForGroup1: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         let password = try? Bcrypt.hash("password")
         guard let passwordHash = password else { fatalError("Failed to seed a regular user") }
 
         let user = User(id: nil,
-                        username: "regular-user",
+                        username: "user-1",
                         password: passwordHash,
-                        userLevel: UserLevel(role: "regular"))
+                        userGroup: 1)
 
         return user.save(on: database)
     }
 
     func revert(on database: Database) -> EventLoopFuture<Void> {
-        User.query(on: database).filter(\.$username == "regular-user").delete()
+        User.query(on: database).filter(\.$userGroup == 1).delete()
     }
 }

@@ -10,10 +10,6 @@ User level management package for Vapor backends. Includes an `AdminMiddleware` 
 
 `testAdminMiddlewareWithUsers` needs a Postgres instance before it can run. Spin up a Docker container with the following parameters:
 ```
-docker run --name postgres \                                                         
--e POSTGRES_DB=test-db \
--e POSTGRES_USER=vapor \
--e POSTGRES_PASSWORD=password \
--p 5432:5432 -d postgres
+docker run --name postgres -e POSTGRES_DB=test-db -e POSTGRES_USER=vapor -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
 ```
 

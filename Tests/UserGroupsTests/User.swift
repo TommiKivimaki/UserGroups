@@ -2,14 +2,14 @@
 
 import Vapor
 import Fluent
-import UserLevels
+import UserGroups
 
 struct UserSignup: Content {
     let username: String
     let password: String
 }
 
-final class User: Model, UserLevelable {
+final class User: Model, Groupable {
     static let schema = "user"
 
     @ID
@@ -21,19 +21,19 @@ final class User: Model, UserLevelable {
     @Field(key: "passwordHash")
     var passwordHash: String
 
-    @Field(key: "userLevel")
-    var userLevel: UserLevel
+    @Field(key: "userGroup")
+    var userGroup: Int
 
     init() { }
 
     init(id: UUID? = nil,
                 username: String,
                 password: String,
-                userLevel: UserLevel = UserLevel(role: "admin")) {
+                userGroup: Int = 9) {
         self.id = id
         self.username = username
         self.passwordHash = password
-        self.userLevel = userLevel
+        self.userGroup = userGroup
     }
 }
 
