@@ -8,7 +8,7 @@ User group management package for Vapor backends. Includes middlewares for grant
 `UserGroups` can be extended to create a meaningful names for groups. There is one group that has been assigned a meaning by default. The `group0` can be referred as `UserGroups.admin`. 
 
 Example extension: 
-```
+```swift
 extension UserGroups {
     static var ios-user: Int { group1 }
 }
