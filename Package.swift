@@ -4,24 +4,37 @@
 import PackageDescription
 
 let package = Package(
-  name: "UserLevels",
-  products: [
-    .library(
-      name: "UserLevels",
-      targets: ["UserLevels"]),
-  ],
-  dependencies: [
-    .package(url: "https://github.com/vapor/vapor.git", from: "3.3.3"),
-    .package(url: "https://github.com/vapor/fluent-sqlite.git", from: "3.0.0"),
-    .package(url: "https://github.com/vapor/auth.git", from: "2.0.4"),
-    .package(url: "https://github.com/vapor/fluent-postgresql.git", from: "1.0.0"),
-  ],
-  targets: [
-    .target(
-      name: "UserLevels",
-      dependencies: ["Vapor", "FluentSQLite", "Authentication"]),
-    .testTarget(
-      name: "UserLevelsTests",
-      dependencies: ["UserLevels", "FluentPostgreSQL"]),
-  ]
+    name: "UserGroups",
+    platforms: [
+           .macOS(.v10_15),
+           .iOS(.v13)
+       ],
+    products: [
+        .library(
+            name: "UserGroups",
+            targets: ["UserGroups"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.36.0"),
+        .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
+        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.1.2"),
+    ],
+    targets: [
+        .target(
+            name: "UserGroups",
+            dependencies: [
+                .product(name: "Vapor", package: "vapor"),
+                .product(name: "Fluent", package: "fluent"),
+                .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
+            ],
+            swiftSettings: [
+                // See <https://github.com/swift-server/guides#building-for-production> for details.
+                .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
+            ]),
+        .testTarget(
+            name: "UserGroupsTests",
+            dependencies: [
+                .target(name: "UserGroups"),
+                .product(name: "XCTVapor", package: "vapor")]),
+    ]
 )
