@@ -1,7 +1,6 @@
 // Copyright © 29.12.2020 Tommi Kivimäki.
 
 import Vapor
-import Fluent
 
 public struct Group1Middleware<U: Authenticatable & Groupable>: Middleware {
     public func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {

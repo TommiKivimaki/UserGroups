@@ -10,7 +10,8 @@ extension Application {
         let app = Application(.testing)
 
         /// Postgres setup
-        let hostname = "localhost"
+        let hostname = Environment.get("PSQL_HOSTNAME") ?? "localhost"
+//        let hostname = "localhost"
         let username = "vapor"
         let password = "password"
         let databaseName = "test-db"

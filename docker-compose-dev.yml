@@ -1,0 +1,29 @@
+# DEV stack for Linux
+version: '3'
+services:
+  usergroups:
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    image: usergroups:dev
+    ports:
+      - 8080:8080
+    # Set current folder as /app folder in container
+    volumes:
+      - .:/app
+    working_dir: /app
+    # Open interactive terminal inside the container
+    stdin_open: true
+    tty: true
+    entrypoint: bash
+    environment:
+      - PSQL_HOSTNAME=postgres
+      - PSQL_PORT=5432
+  postgres:
+    image: "postgres"
+    environment:
+      - POSTGRES_DB=test-db
+      - POSTGRES_USER=vapor
+      - POSTGRES_PASSWORD=password

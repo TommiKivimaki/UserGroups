@@ -2,8 +2,8 @@
 /// You could extend this in your app to give meaning for groups
 /// ```
 /// extension UserGroups {
-///    public static var admin = {
-///        group0
+///    public static var visitor: Int {
+///        group3
 ///    }
 /// ```
 public struct UserGroups {

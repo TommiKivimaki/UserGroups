@@ -14,10 +14,34 @@ extension UserGroups {
 }
 ```
 
-## Running tests
+## Running tests on macOS
 
 Spin up a Docker container with the following parameters before running tests.
 ```
 docker run --name postgres -e POSTGRES_DB=test-db -e POSTGRES_USER=vapor -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
+```
+
+## Running tests on Linux
+
+How to run tests inside a container.
+
+Build
+```
+docker-compose -f docker-compose-dev.yml up --build --abort-on-container-exit
+```
+
+Find container ID
+```
+docker ps
+```
+
+Attach
+```
+docker attach <container id>
+```
+
+Then run the tests.
+```
+swift package clean && swift test
 ```
 
