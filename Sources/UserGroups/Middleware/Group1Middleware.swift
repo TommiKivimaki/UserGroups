@@ -3,6 +3,9 @@
 import Vapor
 
 public struct Group1Middleware<U: Authenticatable & Groupable>: Middleware {
+
+    public init() { }
+    
     public func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
         guard let user = request.auth.get(U.self),
               user.userGroup == UserGroups.group1 else {
