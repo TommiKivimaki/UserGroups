@@ -26,11 +26,13 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
-            ],
-            swiftSettings: [
+            ]
+//            ,
+//            swiftSettings: [
                 // See <https://github.com/swift-server/guides#building-for-production> for details.
-                .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
-            ]),
+//                .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
+//            ]
+        ),
         .testTarget(
             name: "UserGroupsTests",
             dependencies: [
