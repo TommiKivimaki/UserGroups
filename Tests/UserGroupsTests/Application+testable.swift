@@ -11,7 +11,6 @@ extension Application {
 
         /// Postgres setup
         let hostname = Environment.get("PSQL_HOSTNAME") ?? "localhost"
-//        let hostname = "localhost"
         let username = "vapor"
         let password = "password"
         let databaseName = "test-db"
@@ -21,16 +20,12 @@ extension Application {
                           as: .psql)
 
         // MARK: Run migrations
-        app.migrations.add(CreateGroup())
-        app.migrations.add(CreateGroup0())
-        app.migrations.add(CreateGroup1())
-        app.migrations.add(CreateGroup2())
-        
+
         app.migrations.add(CreateUser()) // Create a User table
         app.migrations.add(CreateUserForGroup0()) // Seed a user-0 to the User table
         app.migrations.add(CreateUserForGroup1()) // Seed a user-1 to the User table
         app.migrations.add(CreateUserForGroup2())
-//        try app.autoRevert().wait()
+
         app.logger.logLevel = .debug
         try app.autoMigrate().wait()
 
